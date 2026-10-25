@@ -1,6 +1,6 @@
 # Laporan Data Meridian Tycoon
 
-Dijana oleh tools/validate.py (dataVersion 0.9.0).
+Dijana oleh tools/validate.py (dataVersion 1.0.0).
 
 ## Bilangan Entiti
 
