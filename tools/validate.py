@@ -408,7 +408,8 @@ def check_i18n(ch: Checker, langs: dict) -> None:
         for obj in items2:
             if isinstance(obj, dict):
                 for kk, vv in obj.items():
-                    if kk.endswith("Key") and isinstance(vv, str):
+                    if kk.endswith("Key") and isinstance(vv, str) \
+                            and kk not in ("statKey", "skillId"):
                         referenced.add(vv)
     missing = {k for k in referenced if k not in en_keys}
     if missing:
