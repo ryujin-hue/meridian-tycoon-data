@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "balance.json - pemalar ekonomi teras (satu sumber kebenaran)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dataVersion", "auctionFeePct", "auctionStartPctOfNT", "leverageMaxPct",
+    "leverageInterestWeeklyPct", "leverageCapDailyNetMultiplier",
+    "auctionDurationHours", "offlineCapHours", "upgradeCostGrowth",
+    "purchasedCompanyNetContributionPct", "lostTargetRespawnHours",
+    "legacyPremiumMinPct", "legacyPremiumMaxPct", "calibration", "currencies"
+  ],
+  "properties": {
+    "dataVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "auctionFeePct": { "type": "number", "const": 2 },
+    "auctionStartPctOfNT": { "type": "number", "const": 95 },
+    "leverageMaxPct": { "type": "number", "const": 40 },
+    "leverageInterestWeeklyPct": { "type": "number", "const": 8 },
+    "leverageCapDailyNetMultiplier": { "type": "number", "const": 2 },
+    "auctionDurationHours": { "type": "number", "const": 8 },
+    "offlineCapHours": { "type": "number", "const": 8 },
+    "upgradeCostGrowth": { "type": "number", "const": 1.15 },
+    "purchasedCompanyNetContributionPct": { "type": "number", "const": 35 },
+    "lostTargetRespawnHours": { "type": "number", "const": 48 },
+    "legacyPremiumMinPct": { "type": "number", "minimum": 15, "maximum": 25 },
+    "legacyPremiumMaxPct": { "type": "number", "minimum": 15, "maximum": 25 },
+    "calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activeHoursPerDay", "salaryShareOfGrossPct", "companyCoverageOfTargetPct", "opsCoverageOfTargetPct", "tolerancePct"],
+      "properties": {
+        "activeHoursPerDay": { "type": "number", "const": 16 },
+        "salaryShareOfGrossPct": { "type": "number", "const": 20 },
+        "companyCoverageOfTargetPct": { "type": "number", "const": 30 },
+        "opsCoverageOfTargetPct": { "type": "number", "minimum": 85, "maximum": 115 },
+        "tolerancePct": { "type": "number", "const": 15 }
+      }
+    },
+    "currencies": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "nameKey", "descKey", "premium"],
+        "properties": {
+          "id": { "type": "string", "enum": ["tm", "dp", "km"] },
+          "nameKey": { "type": "string", "pattern": "^ui\\.[a-z0-9_.]+$" },
+          "descKey": { "type": "string", "pattern": "^ui\\.[a-z0-9_.]+$" },
+          "premium": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

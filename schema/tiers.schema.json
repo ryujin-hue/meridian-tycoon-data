@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "tiers.json - 8 tier syarikat",
+  "type": "array",
+  "minItems": 8,
+  "maxItems": 8,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "titleKey", "maxOperations", "maxStaff", "baseValueA", "targetDailyNetIncome", "reputationThreshold", "tierUpRewardDP", "rewardKey"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^t[1-8]$" },
+      "titleKey": { "type": "string", "pattern": "^tier\\.t[1-8]\\.title$" },
+      "maxOperations": { "type": "integer", "minimum": 3, "maximum": 24 },
+      "maxStaff": { "type": "integer", "minimum": 4, "maximum": 24 },
+      "baseValueA": { "type": "integer", "minimum": 40000, "maximum": 24000000 },
+      "targetDailyNetIncome": { "type": "integer", "minimum": 6000, "maximum": 2200000 },
+      "reputationThreshold": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+      "tierUpRewardDP": { "type": ["integer", "null"], "minimum": 0, "maximum": 500 },
+      "rewardKey": { "type": ["string", "null"], "pattern": "^tier\\.t[1-8]\\.reward$" }
+    }
+  }
+}

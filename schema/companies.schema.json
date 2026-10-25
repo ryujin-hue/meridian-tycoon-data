@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "companies.json - 216 syarikat (192 biasa + 24 legacy)",
+  "type": "array",
+  "minItems": 216,
+  "maxItems": 216,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "nameKey", "sector", "tier", "category", "grossIncomePerHourK", "reputation", "foundedYear", "hqCityKey", "staffCount", "descKey", "historyKey", "tags", "synergySector", "ntValue", "auctionStartPriceTM", "paybackDays"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^co_[a-z0-9_]+$" },
+      "nameKey": { "type": "string", "pattern": "^co\\.[a-z0-9_.]+\\.name$" },
+      "sector": { "type": "string", "enum": ["app", "fnb", "logistics"] },
+      "tier": { "type": "integer", "minimum": 1, "maximum": 8 },
+      "category": { "type": "string", "enum": ["starter", "midmarket", "rare", "mega", "legacy"] },
+      "grossIncomePerHourK": { "type": "number", "exclusiveMinimum": 0 },
+      "reputation": { "type": "integer", "minimum": 0, "maximum": 100 },
+      "foundedYear": { "type": "integer", "minimum": 1900, "maximum": 2025 },
+      "hqCityKey": { "type": "string", "pattern": "^city\\.[a-z0-9_]+$" },
+      "staffCount": { "type": "integer", "minimum": 1 },
+      "descKey": { "type": "string", "pattern": "^co\\.[a-z0-9_.]+\\.desc$" },
+      "historyKey": { "type": "string", "pattern": "^co\\.[a-z0-9_.]+\\.history$" },
+      "tags": { "type": "array", "minItems": 2, "maxItems": 4, "uniqueItems": true, "items": { "type": "string" } },
+      "synergySector": { "type": "string", "enum": ["app", "fnb", "logistics"] },
+      "ntValue": { "type": "integer", "exclusiveMinimum": 0 },
+      "auctionStartPriceTM": { "type": "integer", "exclusiveMinimum": 0 },
+      "paybackDays": { "type": "number", "exclusiveMinimum": 0 },
+      "formerOwnerCeoId": { "type": "string", "pattern": "^ceo_[a-z0-9_]+$" },
+      "premiumPct": { "type": "number", "minimum": 15, "maximum": 25 }
+    },
+    "allOf": [
+      {
+        "if": { "properties": { "category": { "const": "legacy" } }, "required": ["category"] },
+        "then": { "required": ["formerOwnerCeoId", "premiumPct"] }
+      }
+    ]
+  }
+}

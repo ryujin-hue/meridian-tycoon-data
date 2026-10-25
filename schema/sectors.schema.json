@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "sectors.json - 3 sektor",
+  "type": "array",
+  "minItems": 3,
+  "maxItems": 3,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "nameKey", "descKey", "multiplier", "synergySectors", "colorHex"],
+    "properties": {
+      "id": { "type": "string", "enum": ["app", "fnb", "logistics"] },
+      "nameKey": { "type": "string", "pattern": "^sec\\.(app|fnb|logistics)\\.name$" },
+      "descKey": { "type": "string", "pattern": "^sec\\.(app|fnb|logistics)\\.desc$" },
+      "multiplier": { "type": "number", "minimum": 0.9, "maximum": 1.15 },
+      "synergySectors": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "uniqueItems": true,
+        "items": { "type": "string", "enum": ["app", "fnb", "logistics"] }
+      },
+      "colorHex": { "type": "string", "pattern": "^#[0-9A-F]{6}$" }
+    }
+  }
+}
