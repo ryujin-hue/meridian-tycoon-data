@@ -3,9 +3,21 @@
   "title": "leaderboard_bots.json - 29 bot + kolam 120 nama (pocket league 30 pemain)",
   "type": "object",
   "additionalProperties": false,
-  "required": ["leagueSize", "bots", "namePool"],
+  "required": [
+    "dataVersion",
+    "leagueSize",
+    "bots",
+    "namePool"
+  ],
   "properties": {
-    "leagueSize": { "type": "integer", "const": 30 },
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "leagueSize": {
+      "type": "integer",
+      "const": 30
+    },
     "bots": {
       "type": "array",
       "minItems": 29,
@@ -13,14 +25,46 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "nameKey", "tier", "weeklyScoreBase", "weeklyScoreVariance", "style"],
+        "required": [
+          "id",
+          "nameKey",
+          "tier",
+          "weeklyScoreBase",
+          "weeklyScoreVariance",
+          "style"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^lb_bot_[0-9]{2}$" },
-          "nameKey": { "type": "string", "pattern": "^lb\\.bot\\.[0-9]{2}\\.name$" },
-          "tier": { "type": "integer", "minimum": 1, "maximum": 8 },
-          "weeklyScoreBase": { "type": "integer", "minimum": 1000 },
-          "weeklyScoreVariance": { "type": "integer", "minimum": 0, "maximum": 100000000 },
-          "style": { "type": "string", "enum": ["steady", "aggressive", "sniper", "diversifier"] }
+          "id": {
+            "type": "string",
+            "pattern": "^lb_bot_[0-9]{2}$"
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^lb\\.bot\\.[0-9]{2}\\.name$"
+          },
+          "tier": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "weeklyScoreBase": {
+            "type": "integer",
+            "minimum": 1000
+          },
+          "weeklyScoreVariance": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000000
+          },
+          "style": {
+            "type": "string",
+            "enum": [
+              "steady",
+              "aggressive",
+              "sniper",
+              "diversifier"
+            ]
+          }
         }
       }
     },
@@ -31,10 +75,20 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["index", "nameKey"],
+        "required": [
+          "index",
+          "nameKey"
+        ],
         "properties": {
-          "index": { "type": "integer", "minimum": 1, "maximum": 120 },
-          "nameKey": { "type": "string", "pattern": "^lb\\.pool\\.[0-9]{3}$" }
+          "index": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^lb\\.pool\\.[0-9]{3}$"
+          }
         }
       }
     }

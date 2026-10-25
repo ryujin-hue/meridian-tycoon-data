@@ -3,139 +3,422 @@
   "title": "events.json - habis stok, perang bidaan, kontrak, sasaran mingguan, berita, mikro-event",
   "type": "object",
   "additionalProperties": false,
-  "required": ["stock_out", "bidding_war", "daily_contract", "weekly_target", "market_news", "micro_event"],
+  "required": [
+    "dataVersion",
+    "stock_out",
+    "bidding_war",
+    "daily_contract",
+    "weekly_target",
+    "market_news",
+    "micro_event"
+  ],
   "properties": {
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
     "stock_out": {
-      "type": "array", "minItems": 12, "maxItems": 12,
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["id", "sector", "titleKey", "descKey", "durationHours", "incomePenaltyPct"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "sector",
+          "titleKey",
+          "descKey",
+          "durationHours",
+          "incomePenaltyPct"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^ev_stockout_[a-z0-9_]+$" },
-          "sector": { "type": "string", "enum": ["app", "fnb", "logistics"] },
-          "titleKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.title$" },
-          "descKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.desc$" },
-          "durationHours": { "type": "number", "minimum": 1, "maximum": 12 },
-          "incomePenaltyPct": { "type": "number", "minimum": 5, "maximum": 50 }
+          "id": {
+            "type": "string",
+            "pattern": "^ev_stockout_[a-z0-9_]+$"
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "app",
+              "fnb",
+              "logistics"
+            ]
+          },
+          "titleKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.title$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.desc$"
+          },
+          "durationHours": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "incomePenaltyPct": {
+            "type": "number",
+            "minimum": 5,
+            "maximum": 50
+          }
         }
       }
     },
     "bidding_war": {
-      "type": "array", "minItems": 8, "maxItems": 8,
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["id", "titleKey", "descKey", "durationHours", "extraCompetitorCount", "aggressionBoostPct"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "titleKey",
+          "descKey",
+          "durationHours",
+          "extraCompetitorCount",
+          "aggressionBoostPct"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^ev_bidwar_[a-z0-9_]+$" },
-          "titleKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.title$" },
-          "descKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.desc$" },
-          "durationHours": { "type": "number", "minimum": 1, "maximum": 24 },
-          "extraCompetitorCount": { "type": "integer", "minimum": 1, "maximum": 3 },
-          "aggressionBoostPct": { "type": "number", "minimum": 5, "maximum": 40 }
+          "id": {
+            "type": "string",
+            "pattern": "^ev_bidwar_[a-z0-9_]+$"
+          },
+          "titleKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.title$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.desc$"
+          },
+          "durationHours": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 24
+          },
+          "extraCompetitorCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "aggressionBoostPct": {
+            "type": "number",
+            "minimum": 5,
+            "maximum": 40
+          }
         }
       }
     },
     "daily_contract": {
-      "type": "array", "minItems": 30, "maxItems": 30,
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["id", "tierBand", "sector", "titleKey", "descKey", "durationHours", "goal", "reward"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tierBand",
+          "sector",
+          "titleKey",
+          "descKey",
+          "durationHours",
+          "goal",
+          "reward"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^ev_contract_[a-z0-9_]+$" },
-          "tierBand": { "type": "integer", "minimum": 1, "maximum": 4 },
-          "sector": { "type": "string", "enum": ["app", "fnb", "logistics", "any"] },
-          "titleKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.title$" },
-          "descKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.desc$" },
-          "durationHours": { "type": "number", "const": 24 },
+          "id": {
+            "type": "string",
+            "pattern": "^ev_contract_[a-z0-9_]+$"
+          },
+          "tierBand": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "app",
+              "fnb",
+              "logistics",
+              "any"
+            ]
+          },
+          "titleKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.title$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.desc$"
+          },
+          "durationHours": {
+            "type": "number",
+            "const": 24
+          },
           "goal": {
-            "type": "object", "additionalProperties": false,
-            "required": ["type", "amount"],
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "amount"
+            ],
             "properties": {
-              "type": { "type": "string", "enum": ["collect_income", "win_auction", "upgrade_operations", "hire_staff", "gain_reputation", "complete_contracts"] },
-              "amount": { "type": "integer", "minimum": 1 }
+              "type": {
+                "type": "string",
+                "enum": [
+                  "collect_income",
+                  "win_auction",
+                  "upgrade_operations",
+                  "hire_staff",
+                  "gain_reputation",
+                  "complete_contracts"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 1
+              }
             }
           },
           "reward": {
-            "type": "object", "additionalProperties": false,
-            "required": ["tm", "dp"],
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tm",
+              "dp"
+            ],
             "properties": {
-              "tm": { "type": "integer", "minimum": 0 },
-              "dp": { "type": "integer", "minimum": 0, "maximum": 5 }
+              "tm": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "dp": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
             }
           }
         }
       }
     },
     "weekly_target": {
-      "type": "array", "minItems": 12, "maxItems": 12,
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["id", "tierBand", "titleKey", "descKey", "durationHours", "goal", "reward"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tierBand",
+          "titleKey",
+          "descKey",
+          "durationHours",
+          "goal",
+          "reward"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^ev_weekly_[a-z0-9_]+$" },
-          "tierBand": { "type": "integer", "minimum": 1, "maximum": 4 },
-          "titleKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.title$" },
-          "descKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.desc$" },
-          "durationHours": { "type": "number", "const": 168 },
+          "id": {
+            "type": "string",
+            "pattern": "^ev_weekly_[a-z0-9_]+$"
+          },
+          "tierBand": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "titleKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.title$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.desc$"
+          },
+          "durationHours": {
+            "type": "number",
+            "const": 168
+          },
           "goal": {
-            "type": "object", "additionalProperties": false,
-            "required": ["type", "amount"],
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "amount"
+            ],
             "properties": {
-              "type": { "type": "string", "enum": ["collect_income", "win_auction", "upgrade_operations", "hire_staff", "gain_reputation", "complete_contracts"] },
-              "amount": { "type": "integer", "minimum": 1 }
+              "type": {
+                "type": "string",
+                "enum": [
+                  "collect_income",
+                  "win_auction",
+                  "upgrade_operations",
+                  "hire_staff",
+                  "gain_reputation",
+                  "complete_contracts"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 1
+              }
             }
           },
           "reward": {
-            "type": "object", "additionalProperties": false,
-            "required": ["dp", "cosmeticRef"],
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dp",
+              "cosmeticRef"
+            ],
             "properties": {
-              "dp": { "type": "integer", "minimum": 5, "maximum": 60 },
-              "cosmeticRef": { "type": ["string", "null"], "pattern": "^cs_[a-z0-9_]+$" }
+              "dp": {
+                "type": "integer",
+                "minimum": 5,
+                "maximum": 60
+              },
+              "cosmeticRef": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^cs_[a-z0-9_]+$"
+              }
             }
           }
         }
       }
     },
     "market_news": {
-      "type": "array", "minItems": 60, "maxItems": 60,
+      "type": "array",
+      "minItems": 60,
+      "maxItems": 60,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["id", "scope", "titleKey", "effect", "weight"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "scope",
+          "titleKey",
+          "effect",
+          "weight"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^ev_news_[a-z0-9_]+$" },
-          "scope": { "type": "string", "enum": ["app", "fnb", "logistics", "global"] },
-          "titleKey": { "type": "string", "pattern": "^news\\.[a-z0-9_.]+$" },
+          "id": {
+            "type": "string",
+            "pattern": "^ev_news_[a-z0-9_]+$"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "app",
+              "fnb",
+              "logistics",
+              "global"
+            ]
+          },
+          "titleKey": {
+            "type": "string",
+            "pattern": "^news\\.[a-z0-9_.]+$"
+          },
           "effect": {
-            "type": ["object", "null"], "additionalProperties": false,
-            "required": ["incomePercentPct", "durationHours"],
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "required": [
+              "incomePercentPct",
+              "durationHours"
+            ],
             "properties": {
-              "incomePercentPct": { "type": "number", "minimum": -10, "maximum": 10 },
-              "durationHours": { "type": "number", "minimum": 2, "maximum": 12 }
+              "incomePercentPct": {
+                "type": "number",
+                "minimum": -10,
+                "maximum": 10
+              },
+              "durationHours": {
+                "type": "number",
+                "minimum": 2,
+                "maximum": 12
+              }
             }
           },
-          "weight": { "type": "integer", "minimum": 1, "maximum": 10 }
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          }
         }
       }
     },
     "micro_event": {
-      "type": "array", "minItems": 20, "maxItems": 20,
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["id", "titleKey", "descKey", "durationMinutes", "effect", "weight"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "titleKey",
+          "descKey",
+          "durationMinutes",
+          "effect",
+          "weight"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^ev_micro_[a-z0-9_]+$" },
-          "titleKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.title$" },
-          "descKey": { "type": "string", "pattern": "^ev\\.[a-z0-9_.]+\\.desc$" },
-          "durationMinutes": { "type": "integer", "minimum": 15, "maximum": 60 },
+          "id": {
+            "type": "string",
+            "pattern": "^ev_micro_[a-z0-9_]+$"
+          },
+          "titleKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.title$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^ev\\.[a-z0-9_.]+\\.desc$"
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "minimum": 15,
+            "maximum": 60
+          },
           "effect": {
-            "type": "object", "additionalProperties": false,
-            "required": ["type", "value"],
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "value"
+            ],
             "properties": {
-              "type": { "type": "string", "enum": ["income_percent", "tm_bonus", "reputation_boost"] },
-              "value": { "type": "number", "minimum": -10, "maximum": 100 }
+              "type": {
+                "type": "string",
+                "enum": [
+                  "income_percent",
+                  "tm_bonus",
+                  "reputation_boost"
+                ]
+              },
+              "value": {
+                "type": "number",
+                "minimum": -10,
+                "maximum": 10000
+              }
             }
           },
-          "weight": { "type": "integer", "minimum": 1, "maximum": 10 }
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          }
         }
       }
     }
