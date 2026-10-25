@@ -11,14 +11,20 @@ Dijana oleh tools/validate.py (dataVersion 0.9.0).
 | operations | - | 24 |
 | companies | - | 216 |
 | ai_ceos | 7 | 7 |
-| staff_roles | - | 5 |
-| staff_pool | - | 100 |
-| research | - | 12 |
-| seasons | - | 6 |
-| cosmetics | - | 44 |
-| milestones | - | 30 |
-| tutorial | - | 10 |
-| leaderboard_bots | - bot + 120 nama | 29 + 120 |
+| staff_roles | 5 | 5 |
+| staff_pool | 100 | 100 |
+| research | 12 | 12 |
+| seasons | 6 | 6 |
+| cosmetics | 44 | 44 |
+| milestones | 30 | 30 |
+| tutorial | 10 | 10 |
+| leaderboard_bots | 29 bot + 120 nama | 29 + 120 |
+| events.stock_out | 12 | 12 |
+| events.bidding_war | 8 | 8 |
+| events.daily_contract | 30 | 30 |
+| events.weekly_target | 12 | 12 |
+| events.market_news | 60 | 60 |
+| events.micro_event | 20 | 20 |
 
 ## Taburan NT & Payback mengikut Tier (syarikat bukan legacy)
 
@@ -46,18 +52,10 @@ Dijana oleh tools/validate.py (dataVersion 0.9.0).
 | t7 | -0.00% |
 | t8 | -0.00% |
 
+## i18n: 1739 kunci (en = rujukan)
+
 ## Amaran
 
-- staff_roles.json: tiada (dijana kemudian)
-- staff_pool.json: tiada (dijana kemudian)
-- research.json: tiada (dijana kemudian)
-- events.json: tiada (dijana kemudian)
-- seasons.json: tiada (dijana kemudian)
-- cosmetics.json: tiada (dijana kemudian)
-- milestones.json: tiada (dijana kemudian)
-- tutorial.json: tiada (dijana kemudian)
-- leaderboard_bots.json: tiada (dijana kemudian)
 - companies: NT maks tier 7 (27,272,250) melebihi panduan mega 24,000,000 (formula diutamakan)
 - companies: NT maks tier 8 (161,349,600) melebihi panduan mega 24,000,000 (formula diutamakan)
 - companies: T8 NT minimum 101,541,600 > panduan mega 24,000,000 - secara matematik tidak dapat dielakkan (A=24,000,000); lihat docs/ECONOMY_NOTES.md
-- i18n: tiada fail lagi
