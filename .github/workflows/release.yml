@@ -1,0 +1,30 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Pasang kebergantungan
+        run: pip install jsonschema
+      - name: Validasi ketat (semua 16 fail wajib)
+        run: python tools/validate.py --strict
+      - name: Bina zip data
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          zip -r "meridian-data-v${VERSION}.zip" README.md Models.kt game-data schema docs/INTEGRATION.md docs/ECONOMY_NOTES.md docs/DECISIONS.md
+      - name: Terbitkan ke GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          files: meridian-data-v*.zip
