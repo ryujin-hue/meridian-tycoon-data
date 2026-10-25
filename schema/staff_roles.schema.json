@@ -1,43 +1,147 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "staff_roles.json - 5 peranan staf",
-  "type": "array",
-  "minItems": 5,
-  "maxItems": 5,
-  "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": ["id", "nameKey", "descKey", "passive", "activeSkill", "salaryByTier", "hireBaseCostPerStarTM", "hireTierScale"],
-    "properties": {
-      "id": { "type": "string", "enum": ["coo", "cfo", "cmo", "cto", "hr"] },
-      "nameKey": { "type": "string", "pattern": "^role\\.(coo|cfo|cmo|cto|hr)\\.name$" },
-      "descKey": { "type": "string", "pattern": "^role\\.(coo|cfo|cmo|cto|hr)\\.desc$" },
-      "passive": {
+  "type": "object",
+  "required": [
+    "dataVersion",
+    "roles"
+  ],
+  "properties": {
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["statKey", "perStarPct", "hardCapPct", "descKey"],
+        "required": [
+          "id",
+          "nameKey",
+          "descKey",
+          "passive",
+          "activeSkill",
+          "salaryByTier",
+          "hireBaseCostPerStarTM",
+          "hireTierScale"
+        ],
         "properties": {
-          "statKey": { "type": "string" },
-          "perStarPct": { "type": "number", "exclusiveMinimum": 0, "maximum": 10 },
-          "hardCapPct": { "type": "number", "exclusiveMinimum": 0, "maximum": 40 },
-          "descKey": { "type": "string", "pattern": "^role\\.[a-z0-9_.]+\\.passive$" }
+          "id": {
+            "type": "string",
+            "enum": [
+              "coo",
+              "cfo",
+              "cmo",
+              "cto",
+              "hr"
+            ]
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^role\\.(coo|cfo|cmo|cto|hr)\\.name$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^role\\.(coo|cfo|cmo|cto|hr)\\.desc$"
+          },
+          "passive": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "statKey",
+              "perStarPct",
+              "hardCapPct",
+              "descKey"
+            ],
+            "properties": {
+              "statKey": {
+                "type": "string"
+              },
+              "perStarPct": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 10
+              },
+              "hardCapPct": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 40
+              },
+              "descKey": {
+                "type": "string",
+                "pattern": "^role\\.[a-z0-9_.]+\\.passive$"
+              }
+            }
+          },
+          "activeSkill": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "skillId",
+              "nameKey",
+              "descKey",
+              "cooldownHours",
+              "unlockStar"
+            ],
+            "properties": {
+              "skillId": {
+                "type": "string",
+                "enum": [
+                  "overtime",
+                  "audit_clean",
+                  "campaign",
+                  "market_scan",
+                  "recruitment"
+                ]
+              },
+              "nameKey": {
+                "type": "string",
+                "pattern": "^role\\.[a-z0-9_.]+\\.active_name$"
+              },
+              "descKey": {
+                "type": "string",
+                "pattern": "^role\\.[a-z0-9_.]+\\.active_desc$"
+              },
+              "cooldownHours": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 720
+              },
+              "unlockStar": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              }
+            }
+          },
+          "salaryByTier": {
+            "type": "array",
+            "minItems": 8,
+            "maxItems": 8,
+            "items": {
+              "type": "integer",
+              "minimum": 100
+            }
+          },
+          "hireBaseCostPerStarTM": {
+            "type": "integer",
+            "minimum": 100
+          },
+          "hireTierScale": {
+            "type": "array",
+            "minItems": 8,
+            "maxItems": 8,
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
         }
-      },
-      "activeSkill": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["skillId", "nameKey", "descKey", "cooldownHours", "unlockStar"],
-        "properties": {
-          "skillId": { "type": "string", "enum": ["overtime", "audit_clean", "campaign", "market_scan", "recruitment"] },
-          "nameKey": { "type": "string", "pattern": "^role\\.[a-z0-9_.]+\\.active_name$" },
-          "descKey": { "type": "string", "pattern": "^role\\.[a-z0-9_.]+\\.active_desc$" },
-          "cooldownHours": { "type": "number", "minimum": 1, "maximum": 720 },
-          "unlockStar": { "type": "integer", "minimum": 1, "maximum": 5 }
-        }
-      },
-      "salaryByTier": { "type": "array", "minItems": 8, "maxItems": 8, "items": { "type": "integer", "minimum": 100 } },
-      "hireBaseCostPerStarTM": { "type": "integer", "minimum": 100 },
-      "hireTierScale": { "type": "array", "minItems": 8, "maxItems": 8, "items": { "type": "integer", "minimum": 1 } }
+      }
     }
-  }
+  },
+  "additionalProperties": false
 }

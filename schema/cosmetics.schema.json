@@ -1,21 +1,76 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "cosmetics.json - 44 kosmetik (harga KM tetap, tiada kelangkaan peluang)",
-  "type": "array",
-  "minItems": 44,
-  "maxItems": 44,
-  "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": ["id", "type", "nameKey", "descKey", "fixedRarity", "priceKM"],
-    "properties": {
-      "id": { "type": "string", "pattern": "^cs_(logo|hq|title)_[0-9]{2}$" },
-      "type": { "type": "string", "enum": ["logo_skin", "hq_theme", "ceo_title"] },
-      "nameKey": { "type": "string", "pattern": "^cs\\.[a-z0-9_.]+\\.name$" },
-      "descKey": { "type": "string", "pattern": "^cs\\.[a-z0-9_.]+\\.desc$" },
-      "fixedRarity": { "type": "string", "enum": ["common", "rare", "epic"] },
-      "priceKM": { "type": "integer", "minimum": 10, "maximum": 500 },
-      "tierRef": { "type": ["integer", "null"], "minimum": 1, "maximum": 8 }
+  "type": "object",
+  "required": [
+    "dataVersion",
+    "cosmetics"
+  ],
+  "properties": {
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "cosmetics": {
+      "type": "array",
+      "minItems": 44,
+      "maxItems": 44,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "nameKey",
+          "descKey",
+          "fixedRarity",
+          "priceKM"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^cs_(logo|hq|title)_[0-9]{2}$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "logo_skin",
+              "hq_theme",
+              "ceo_title"
+            ]
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^cs\\.[a-z0-9_.]+\\.name$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^cs\\.[a-z0-9_.]+\\.desc$"
+          },
+          "fixedRarity": {
+            "type": "string",
+            "enum": [
+              "common",
+              "rare",
+              "epic"
+            ]
+          },
+          "priceKM": {
+            "type": "integer",
+            "minimum": 10,
+            "maximum": 500
+          },
+          "tierRef": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 8
+          }
+        }
+      }
     }
-  }
+  },
+  "additionalProperties": false
 }

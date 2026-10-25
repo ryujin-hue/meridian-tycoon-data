@@ -1,37 +1,116 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "milestones.json - 30 milestone (6 teras + 24 tambahan)",
-  "type": "array",
-  "minItems": 30,
-  "maxItems": 30,
-  "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": ["id", "core", "nameKey", "descKey", "goal", "reward"],
-    "properties": {
-      "id": { "type": "string", "pattern": "^ms_[a-z0-9_]+$" },
-      "core": { "type": "boolean" },
-      "nameKey": { "type": "string", "pattern": "^ms\\.[a-z0-9_]+\\.name$" },
-      "descKey": { "type": "string", "pattern": "^ms\\.[a-z0-9_]+\\.desc$" },
-      "goal": {
+  "type": "object",
+  "required": [
+    "dataVersion",
+    "milestones"
+  ],
+  "properties": {
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "milestones": {
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
+      "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["type", "value"],
+        "required": [
+          "id",
+          "core",
+          "nameKey",
+          "descKey",
+          "goal",
+          "reward"
+        ],
         "properties": {
-          "type": { "type": "string", "enum": ["companies_owned", "sectors_active", "reputation", "sector_mastery", "dual_tier_empire", "tier_reached", "auctions_won", "operations_upgraded", "staff_hired", "research_completed", "contracts_completed", "seasons_played", "cosmetics_owned", "lifetime_income"] },
-          "value": { "type": "integer", "minimum": 1 },
-          "sector": { "type": ["string", "null"], "enum": ["app", "fnb", "logistics", null] }
-        }
-      },
-      "reward": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["dp"],
-        "properties": {
-          "dp": { "type": "integer", "minimum": 5, "maximum": 200 },
-          "cosmeticRef": { "type": ["string", "null"], "pattern": "^cs_[a-z0-9_]+$" }
+          "id": {
+            "type": "string",
+            "pattern": "^ms_[a-z0-9_]+$"
+          },
+          "core": {
+            "type": "boolean"
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^ms\\.[a-z0-9_]+\\.name$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^ms\\.[a-z0-9_]+\\.desc$"
+          },
+          "goal": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "companies_owned",
+                  "sectors_active",
+                  "reputation",
+                  "sector_mastery",
+                  "dual_tier_empire",
+                  "tier_reached",
+                  "auctions_won",
+                  "operations_upgraded",
+                  "staff_hired",
+                  "research_completed",
+                  "contracts_completed",
+                  "seasons_played",
+                  "cosmetics_owned",
+                  "lifetime_income"
+                ]
+              },
+              "value": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sector": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "app",
+                  "fnb",
+                  "logistics",
+                  null
+                ]
+              }
+            }
+          },
+          "reward": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dp"
+            ],
+            "properties": {
+              "dp": {
+                "type": "integer",
+                "minimum": 5,
+                "maximum": 200
+              },
+              "cosmeticRef": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^cs_[a-z0-9_]+$"
+              }
+            }
+          }
         }
       }
     }
-  }
+  },
+  "additionalProperties": false
 }

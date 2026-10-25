@@ -1,31 +1,92 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "research.json - 12 node penyelidikan (3 pohon x 4 peringkat)",
-  "type": "array",
-  "minItems": 12,
-  "maxItems": 12,
-  "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": ["id", "tree", "stage", "nameKey", "descKey", "costDP", "unlockTier", "effect"],
-    "properties": {
-      "id": { "type": "string", "pattern": "^rs_(op|mk|mg)_[1-4]$" },
-      "tree": { "type": "string", "enum": ["operasi", "pasaran", "merger"] },
-      "stage": { "type": "integer", "minimum": 1, "maximum": 4 },
-      "nameKey": { "type": "string", "pattern": "^rs\\.[a-z0-9_.]+\\.name$" },
-      "descKey": { "type": "string", "pattern": "^rs\\.[a-z0-9_.]+\\.desc$" },
-      "costDP": { "type": "integer", "minimum": 5, "maximum": 2000 },
-      "unlockTier": { "type": "integer", "minimum": 1, "maximum": 8 },
-      "effect": {
+  "type": "object",
+  "required": [
+    "dataVersion",
+    "nodes"
+  ],
+  "properties": {
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["type", "perStageValue", "hardCapValue"],
+        "required": [
+          "id",
+          "tree",
+          "stage",
+          "nameKey",
+          "descKey",
+          "costDP",
+          "unlockTier",
+          "effect"
+        ],
         "properties": {
-          "type": { "type": "string" },
-          "perStageValue": { "type": "number" },
-          "hardCapValue": { "type": "number" }
+          "id": {
+            "type": "string",
+            "pattern": "^rs_(op|mk|mg)_[1-4]$"
+          },
+          "tree": {
+            "type": "string",
+            "enum": [
+              "operasi",
+              "pasaran",
+              "merger"
+            ]
+          },
+          "stage": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^rs\\.[a-z0-9_.]+\\.name$"
+          },
+          "descKey": {
+            "type": "string",
+            "pattern": "^rs\\.[a-z0-9_.]+\\.desc$"
+          },
+          "costDP": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 2000
+          },
+          "unlockTier": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "effect": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "perStageValue",
+              "hardCapValue"
+            ],
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "perStageValue": {
+                "type": "number"
+              },
+              "hardCapValue": {
+                "type": "number"
+              }
+            }
+          }
         }
       }
     }
-  }
+  },
+  "additionalProperties": false
 }

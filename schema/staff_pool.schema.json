@@ -1,19 +1,61 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "staff_pool.json - 100 individu staf rekaan",
-  "type": "array",
-  "minItems": 100,
-  "maxItems": 100,
-  "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": ["id", "role", "star", "nameKey", "bioKey"],
-    "properties": {
-      "id": { "type": "string", "pattern": "^st_(coo|cfo|cmo|cto|hr)_[1-5]_[1-4]$" },
-      "role": { "type": "string", "enum": ["coo", "cfo", "cmo", "cto", "hr"] },
-      "star": { "type": "integer", "minimum": 1, "maximum": 5 },
-      "nameKey": { "type": "string", "pattern": "^st\\.[a-z0-9_.]+\\.name$" },
-      "bioKey": { "type": "string", "pattern": "^st\\.[a-z0-9_.]+\\.bio$" }
+  "type": "object",
+  "required": [
+    "dataVersion",
+    "staff"
+  ],
+  "properties": {
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "staff": {
+      "type": "array",
+      "minItems": 100,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "role",
+          "star",
+          "nameKey",
+          "bioKey"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^st_(coo|cfo|cmo|cto|hr)_[1-5]_[1-4]$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "coo",
+              "cfo",
+              "cmo",
+              "cto",
+              "hr"
+            ]
+          },
+          "star": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "nameKey": {
+            "type": "string",
+            "pattern": "^st\\.[a-z0-9_.]+\\.name$"
+          },
+          "bioKey": {
+            "type": "string",
+            "pattern": "^st\\.[a-z0-9_.]+\\.bio$"
+          }
+        }
+      }
     }
-  }
+  },
+  "additionalProperties": false
 }

@@ -69,6 +69,15 @@ def key_limit(key: str) -> int:
     return DEFAULT_LIMIT
 
 
+# Fail berbentuk objek pembungkus: {dataVersion, <field>: [...]}
+FIELD = {
+    "tiers": "tiers", "sectors": "sectors", "operations": "operations",
+    "companies": "companies", "ai_ceos": "ceos", "staff_roles": "roles",
+    "staff_pool": "staff", "research": "nodes", "seasons": "seasons",
+    "cosmetics": "cosmetics", "milestones": "milestones",
+}
+
+
 class Checker:
     def __init__(self) -> None:
         self.errors: list[str] = []
@@ -273,32 +282,36 @@ def check_formula_examples(ch: Checker) -> None:
 
 
 def check_cross_refs(ch: Checker, d: dict) -> None:
-    sectors = {s["id"] for s in d["sectors"]} if d.get("sectors") else set()
-    tier_ids = {t["id"] for t in d["tiers"]} if d.get("tiers") else set()
-    ops = d.get("operations") or []
+    def L(name):
+        w = d.get(name)
+        return w[FIELD[name]] if w else []
+
+    sectors = {s["id"] for s in L("sectors")}
+    tier_ids = {t["id"] for t in L("tiers")}
+    ops = L("operations")
     if ops and sectors:
         for o in ops:
             if o["sector"] not in sectors:
                 ch.err(f"operations: {o['id']} sektor {o['sector']} tiada")
-    comps = d.get("companies") or []
+    comps = L("companies")
     if comps and sectors:
         for c in comps:
             if c["sector"] not in sectors or c["synergySector"] not in sectors:
                 ch.err(f"companies: {c['id']} rujukan sektor tidak sah")
-    staff = d.get("staff_pool") or []
-    roles = {r["id"] for r in d["staff_roles"]} if d.get("staff_roles") else set()
+    staff = L("staff_pool")
+    roles = {r["id"] for r in L("staff_roles")}
     if staff and roles:
         for s in staff:
             if s["role"] not in roles:
                 ch.err(f"staff_pool: {s['id']} peranan {s['role']} tiada")
-    cos = {c["id"] for c in d["cosmetics"]} if d.get("cosmetics") else set()
-    if d.get("milestones") and cos:
-        for m in d["milestones"]:
+    cos = {c["id"] for c in L("cosmetics")}
+    if L("milestones") and cos:
+        for m in L("milestones"):
             ref = m["reward"].get("cosmeticRef")
             if ref and ref not in cos:
                 ch.err(f"milestones: {m['id']} cosmeticRef {ref} tiada")
-    if d.get("seasons") and cos:
-        for sn in d["seasons"]:
+    if L("seasons") and cos:
+        for sn in L("seasons"):
             for tr in ("freeTrack", "premiumTrack"):
                 for st in sn[tr]["steps"]:
                     for rw in st["rewards"]:
@@ -380,23 +393,23 @@ def check_i18n(ch: Checker, langs: dict) -> None:
         if not path.exists():
             continue
         data = C.load_json(path)
-        items = data if isinstance(data, list) else [data]
-        for it in items:
-            if not isinstance(it, dict):
-                continue
-            if fname == "seasons":
-                items2 = data
-            elif fname == "events":
-                items2 = [x for group in data.values() for x in group]
-            elif fname == "leaderboard_bots":
-                items2 = data["bots"] + data["namePool"]
-            else:
-                items2 = items
-            for obj in items2:
-                if isinstance(obj, dict):
-                    for kk, vv in obj.items():
-                        if kk.endswith("Key") and isinstance(vv, str):
-                            referenced.add(vv)
+        if fname == "events":
+            items2 = [x for g in data.values() if isinstance(g, list) for x in g]
+        elif fname == "leaderboard_bots":
+            items2 = data["bots"] + data["namePool"]
+        elif fname == "balance":
+            items2 = data.get("currencies", [])
+        elif fname == "tutorial":
+            items2 = data["steps"] + [data["starterGrant"], data["starterTarget"]]
+        elif fname in FIELD:
+            items2 = data[FIELD[fname]]
+        else:
+            items2 = [data]
+        for obj in items2:
+            if isinstance(obj, dict):
+                for kk, vv in obj.items():
+                    if kk.endswith("Key") and isinstance(vv, str):
+                        referenced.add(vv)
     missing = {k for k in referenced if k not in en_keys}
     if missing:
         ch.err(f"i18n/en: {len(missing)} kunci dirujuk data tapi tiada (cth: {sorted(missing)[:8]})")
@@ -483,30 +496,32 @@ def main() -> int:
 
     if d["balance"]:
         check_balance(ch, d["balance"])
-    check_tiers(ch, d["tiers"])
-    check_operations(ch, d["operations"])
-    check_ops_calibration(ch, d["operations"])
-    check_companies(ch, d["companies"], d["ai_ceos"])
+    check_tiers(ch, d["tiers"]["tiers"] if d["tiers"] else None)
+    check_operations(ch, d["operations"]["operations"] if d["operations"] else None)
+    check_ops_calibration(ch, d["operations"]["operations"] if d["operations"] else None)
+    check_companies(ch,
+                    d["companies"]["companies"] if d["companies"] else None,
+                    d["ai_ceos"]["ceos"] if d["ai_ceos"] else None)
     check_formula_examples(ch)
     check_cross_refs(ch, d)
 
     for name in ("sectors", "ai_ceos", "staff_roles", "staff_pool", "research",
                  "seasons", "cosmetics", "milestones", "tutorial", "leaderboard_bots"):
-        if d[name] is not None:
-            if isinstance(d[name], list):
-                exp = EXPECTED_COUNTS[name]
-                check_basic_list(ch, name, d[name], exp)
-            elif name == "leaderboard_bots":
-                b = d[name]["bots"]
-                ch.stats["count.leaderboard_bots"] = len(b)
-                if len(b) != 29:
-                    ch.err(f"leaderboard_bots: {len(b)} bot != 29")
-                if len(d[name]["namePool"]) != 120:
-                    ch.err("leaderboard_bots: kolam nama != 120")
-            elif name == "tutorial":
-                ch.stats["count.tutorial"] = len(d[name]["steps"])
-                if len(d[name]["steps"]) != 10:
-                    ch.err("tutorial: langkah != 10")
+        if d[name] is None:
+            continue
+        if name == "leaderboard_bots":
+            b = d[name]["bots"]
+            ch.stats["count.leaderboard_bots"] = len(b)
+            if len(b) != 29:
+                ch.err(f"leaderboard_bots: {len(b)} bot != 29")
+            if len(d[name]["namePool"]) != 120:
+                ch.err("leaderboard_bots: kolam nama != 120")
+        elif name == "tutorial":
+            ch.stats["count.tutorial"] = len(d[name]["steps"])
+            if len(d[name]["steps"]) != 10:
+                ch.err("tutorial: langkah != 10")
+        else:
+            check_basic_list(ch, name, d[name][FIELD[name]], EXPECTED_COUNTS[name])
 
     check_i18n(ch, langs)
 
